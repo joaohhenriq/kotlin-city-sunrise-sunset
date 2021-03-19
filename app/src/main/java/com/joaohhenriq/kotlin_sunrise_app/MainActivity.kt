@@ -2,21 +2,21 @@ package com.joaohhenriq.kotlin_sunrise_app
 
 import android.content.Context
 import android.os.AsyncTask
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.BaseAdapter
+import android.widget.ListAdapter
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
-import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         FetchTask(this).execute(city)
     }
 
-    inner class FetchTask: AsyncTask<String, String, String> {
+    inner class FetchTask : AsyncTask<String, String, String> {
 
         var context: Context
 
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
                 var inString = convertStreamToString(urlConnect.inputStream)
                 publishProgress(inString)
-            } catch(e: Exception) {
+            } catch (e: Exception) {
                 print(e.message)
             }
 
@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                 val domains = json.getJSONArray("domains")
 
                 var index = 0
-                while(index < domains.length()) {
+                while (index < domains.length()) {
                     domainListResult.add(domains.getJSONObject(index).getString("domain"))
                     index++
                 }
@@ -73,8 +73,7 @@ class MainActivity : AppCompatActivity() {
 
                 val adapter = ArrayAdapter(context, android.R.layout.simple_list_item_1, domainListResult)
                 listView.adapter = adapter
-
-            } catch(e: Exception) {
+            } catch (e: Exception) {
                 print(e.message)
             }
 
@@ -90,13 +89,13 @@ class MainActivity : AppCompatActivity() {
             do {
                 line = bufferReader.readLine()
 
-                if(line != null) {
+                if (line != null) {
                     allString += line
                 }
             } while (line != null)
 
             inputStream.close()
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             print(e.message)
         }
 
